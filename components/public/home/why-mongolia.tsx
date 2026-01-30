@@ -9,25 +9,25 @@ const features = [
     icon: Mountain,
     title: 'Үзэсгэлэнт байгаль',
     description: 'Говийн цөлөөс эхлээд Хөвсгөл нуур хүртэл дэлхийн хамгийн гайхамшигт байгалийн үзэгдлүүд.',
-    image: 'https://images.unsplash.com/photo-1569330667576-d3a1c08e1dc0?w=600&h=400&fit=crop',
+    image: '1.jpg',
   },
   {
     icon: Tent,
     title: 'Нүүдэлчдийн соёл',
     description: 'Мянган жилийн түүхтэй нүүдэлчдийн амьдралын хэв маяг, уламжлалт зан заншил.',
-    image: 'https://images.unsplash.com/photo-1596395463831-2f53e797d361?w=600&h=400&fit=crop',
+    image: '2.jpg',
   },
   {
     icon: Users,
     title: 'Зочломтгой ард түмэн',
     description: 'Монголчуудын дулаахан хүлээн авалт, жинхэнэ зочломтгой уламжлал.',
-    image: 'https://images.unsplash.com/photo-1587502537147-2ba64a62e4e6?w=600&h=400&fit=crop',
+    image: '3.jpg',
   },
   {
     icon: Sun,
     title: 'Дөрвөн улирал',
     description: 'Улирал бүр өөрийн гэсэн онцлогтой, жилийн турш аялах боломжтой.',
-    image: 'https://images.unsplash.com/photo-1602858789614-72e3a4698e48?w=600&h=400&fit=crop',
+    image: '4.jpg',
   },
 ]
 

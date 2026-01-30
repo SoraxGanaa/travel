@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 const heroImages = [
-  'https://images.unsplash.com/photo-1569330667576-d3a1c08e1dc0?w=1920&q=80',
-  'https://images.unsplash.com/photo-1602858789614-72e3a4698e48?w=1920&q=80',
-  'https://images.unsplash.com/photo-1596395463831-2f53e797d361?w=1920&q=80',
+  '1.jpg',
+  '2.jpg',
+  '3.jpg',
 ]
 
 export function HeroSection() {

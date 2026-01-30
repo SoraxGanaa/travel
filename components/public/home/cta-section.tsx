@@ -8,7 +8,7 @@ export function CTASection() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1596395463831-2f53e797d361?w=1920&q=80"
+          src="3.jpg"
           alt=""
           className="h-full w-full object-cover"
         />

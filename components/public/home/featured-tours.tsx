@@ -1,30 +1,42 @@
-'use client'
+"use client";
 
-import { useRef } from 'react'
-import Link from 'next/link'
-import { ArrowRight, ChevronLeft, ChevronRight, Clock, MapPin, Star } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import type { Tour } from '@/lib/db'
-import { cn } from '@/lib/utils'
+import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Star,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import type { Tour } from "@/lib/db";
+import { cn } from "@/lib/utils";
 
 interface FeaturedToursProps {
-  tours: Tour[]
+  tours: Tour[];
 }
 
-export function FeaturedTours({ tours }: FeaturedToursProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
+// ✅ Public дээр байгаа 6 зураг (public/1.jpg ... public/6.jpg)
+const tourImages = ["/1.jpg", "/2.jpg", "/3.jpg", "/4.jpg", "/5.jpg", "/6.jpg"];
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 400
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      })
-    }
-  }
+export function FeaturedTours({ tours }: FeaturedToursProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const scrollAmount = 400;
+    el.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section className="py-20 lg:py-28 bg-background">
@@ -39,14 +51,16 @@ export function FeaturedTours({ tours }: FeaturedToursProps) {
               Алдартай чиглэлүүд
             </h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-xl">
-              Монгол орны хамгийн үзэсгэлэнт газруудаар аялах бидний онцлох хөтөлбөрүүд
+              Монгол орны хамгийн үзэсгэлэнт газруудаар аялах бидний онцлох
+              хөтөлбөрүүд
             </p>
           </div>
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="icon"
-              onClick={() => scroll('left')}
+              onClick={() => scroll("left")}
               className="rounded-full"
               aria-label="Previous tours"
             >
@@ -55,7 +69,7 @@ export function FeaturedTours({ tours }: FeaturedToursProps) {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => scroll('right')}
+              onClick={() => scroll("right")}
               className="rounded-full"
               aria-label="Next tours"
             >
@@ -68,7 +82,7 @@ export function FeaturedTours({ tours }: FeaturedToursProps) {
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {tours.map((tour, index) => (
             <TourCard key={tour.id} tour={tour} index={index} />
@@ -86,16 +100,20 @@ export function FeaturedTours({ tours }: FeaturedToursProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function TourCard({ tour, index }: { tour: Tour; index: number }) {
   const styleColors: Record<string, string> = {
-    Adventure: 'bg-chart-4/10 text-chart-4 border-chart-4/20',
-    Culture: 'bg-chart-1/10 text-chart-1 border-chart-1/20',
-    Nature: 'bg-chart-2/10 text-chart-2 border-chart-2/20',
-    Luxury: 'bg-chart-3/10 text-chart-3 border-chart-3/20',
-  }
+    Adventure: "bg-chart-4/10 text-chart-4 border-chart-4/20",
+    Culture: "bg-chart-1/10 text-chart-1 border-chart-1/20",
+    Nature: "bg-chart-2/10 text-chart-2 border-chart-2/20",
+    Luxury: "bg-chart-3/10 text-chart-3 border-chart-3/20",
+  };
+
+  const imageSrc = tour.coverImage?.startsWith("/")
+    ? tour.coverImage
+    : tourImages[index % tourImages.length]; // ✅ fallback public зураг
 
   return (
     <Link
@@ -103,19 +121,25 @@ function TourCard({ tour, index }: { tour: Tour; index: number }) {
       className="group snap-start"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      <Card className="w-[320px] sm:w-[360px] flex-shrink-0 overflow-hidden border-border/50 bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <Card className="w-[320px] sm:w-[360px] flex-shrink-0 overflow-hidden p-0 border-border/50 bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
         {/* Image */}
-        <div className="relative h-52 overflow-hidden">
-          <img
-            src={tour.coverImage || "/placeholder.svg"}
+        <div className="relative h-52 overflow-hidden m-0 p-0">
+          <Image
+            src={imageSrc}
             alt={tour.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            fill
+            sizes="(max-width: 640px) 320px, 360px"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            priority={index < 2}
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-          
+
           {/* Price Badge */}
           <div className="absolute top-4 right-4 glass rounded-full px-3 py-1">
-            <span className="text-sm font-semibold text-foreground">${tour.priceFrom}</span>
+            <span className="text-sm font-semibold text-foreground">
+              ${tour.priceFrom}
+            </span>
             <span className="text-xs text-muted-foreground">-с</span>
           </div>
 
@@ -129,16 +153,20 @@ function TourCard({ tour, index }: { tour: Tour; index: number }) {
         <CardContent className="p-5">
           {/* Style Badges */}
           <div className="flex flex-wrap gap-2 mb-3">
-            {tour.style.slice(0, 2).map((s) => (
+            {tour.style?.slice(0, 2).map((s: string) => (
               <Badge
                 key={s}
                 variant="outline"
-                className={cn('text-xs font-medium', styleColors[s])}
+                className={cn(
+                  "text-xs font-medium",
+                  styleColors[s] || "border-border",
+                )}
               >
-                {s === 'Adventure' && 'Адал явдал'}
-                {s === 'Culture' && 'Соёл'}
-                {s === 'Nature' && 'Байгаль'}
-                {s === 'Luxury' && 'Тансаг'}
+                {s === "Adventure" && "Адал явдал"}
+                {s === "Culture" && "Соёл"}
+                {s === "Nature" && "Байгаль"}
+                {s === "Luxury" && "Тансаг"}
+                {!["Adventure", "Culture", "Nature", "Luxury"].includes(s) && s}
               </Badge>
             ))}
           </div>
@@ -167,5 +195,5 @@ function TourCard({ tour, index }: { tour: Tour; index: number }) {
         </CardContent>
       </Card>
     </Link>
-  )
+  );
 }
