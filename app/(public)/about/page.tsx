@@ -11,7 +11,7 @@ const testimonials = [
     id: 1,
     name: 'Sarah Johnson',
     location: 'United States',
-    avatar: '/6.jpg',
+    avatar: '/6.jpg', // ✅ public/6.jpg бол ингэж заана
     rating: 5,
     text: 'An absolutely life-changing experience! The Gobi Desert tour exceeded all my expectations. Our guide was incredibly knowledgeable and the hospitality was unmatched.',
     tour: 'Говийн нууц аялал',
@@ -45,7 +45,7 @@ const testimonials = [
   },
 ]
 
-export function Testimonials() {
+export default function AboutPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length)
